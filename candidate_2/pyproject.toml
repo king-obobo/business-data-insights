@@ -1,0 +1,11 @@
+[project]
+name = "candidate-2"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "ipykernel>=7.3.0",
+    "kaggle>=2.2.4",
+    "pandas>=3.0.5",
+]
