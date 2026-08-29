@@ -36,12 +36,14 @@ def load_products(data_dir: str = DATA_DIR) -> pd.DataFrame:
         pd.DataFrame: _description_
     """
     file_path = os.path.join(data_dir, 'products.csv')
-    return pd.read_csv(
-        file_path,
-        parse_dates=['Launch_Date'],
-        date_format='%Y-%m-%d',
-        dtype = {'Price': 'Int32'}
-    )
+    df = pd.read_csv(
+            file_path,
+            parse_dates=['Launch_Date'],
+            date_format='%Y-%m-%d',
+            dtype = {'Price': 'Int32'}
+        )
+    df.columns = df.columns.str.lower()
+    return df
     
 
 def load_stores(data_dir: str = DATA_DIR) -> pd.DataFrame:
@@ -54,7 +56,9 @@ def load_stores(data_dir: str = DATA_DIR) -> pd.DataFrame:
         pd.DataFrame: _description_
     """
     file_path = os.path.join(data_dir, 'stores.json')
-    return pd.read_json(file_path)
+    df = pd.read_json(file_path)
+    df.columns = df.columns.str.lower()
+    return df
 
 
 def load_warranty(data_dir: str) -> pd.DataFrame:
@@ -73,8 +77,8 @@ def load_all_data(data_dir: str = DATA_DIR) -> dict[str, pd.DataFrame]:
     }
     
     
-if __name__ == '__main__':
-    data = load_all_data()
+# if __name__ == '__main__':
+#     data = load_all_data()
     
-    for name, df in data.items():
-        print(f"Loaded {name}: {df.shape[0]} rows, {df.shape[1]} columns")
+#     for name, df in data.items():
+#         print(f"Loaded {name}: {df.shape[0]} rows, {df.shape[1]} columns")
