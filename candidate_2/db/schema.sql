@@ -1,5 +1,5 @@
 -- ============================================================
--- Apple Retail Sales Database Schema
+-- Apple Retail Sales Database Schema (String ID Revision)
 -- ============================================================
 
 -- Drop tables in reverse dependency order
@@ -15,7 +15,7 @@ DROP TABLE IF EXISTS category;
 -- ============================================================
 
 CREATE TABLE category (
-    category_id   INTEGER PRIMARY KEY,
+    category_id   VARCHAR(50) PRIMARY KEY,
     category_name VARCHAR(100) NOT NULL
 );
 
@@ -25,7 +25,7 @@ CREATE TABLE category (
 -- ============================================================
 
 CREATE TABLE stores (
-    store_id   INTEGER PRIMARY KEY,
+    store_id   VARCHAR(50) PRIMARY KEY,
     store_name VARCHAR(150) NOT NULL,
     city       VARCHAR(100) NOT NULL,
     country    VARCHAR(100) NOT NULL
@@ -37,9 +37,9 @@ CREATE TABLE stores (
 -- ============================================================
 
 CREATE TABLE products (
-    product_id   INTEGER PRIMARY KEY,
+    product_id  VARCHAR(50) PRIMARY KEY,
     product_name VARCHAR(150) NOT NULL,
-    category_id  INTEGER NOT NULL,
+    category_id  VARCHAR(50) NOT NULL,
     launch_date  DATE,
     price        NUMERIC(10, 2) NOT NULL,
 
@@ -57,10 +57,10 @@ CREATE TABLE products (
 -- ============================================================
 
 CREATE TABLE sales (
-    sale_id    BIGINT PRIMARY KEY,
+    sale_id    VARCHAR(50) PRIMARY KEY,
     sale_date  DATE NOT NULL,
-    store_id   INTEGER NOT NULL,
-    product_id INTEGER NOT NULL,
+    store_id   VARCHAR(50) NOT NULL,
+    product_id VARCHAR(50) NOT NULL,
     quantity   INTEGER NOT NULL,
 
     CONSTRAINT fk_sales_store
@@ -81,9 +81,9 @@ CREATE TABLE sales (
 -- ============================================================
 
 CREATE TABLE warranty (
-    claim_id      INTEGER PRIMARY KEY,
+    claim_id      VARCHAR(50) PRIMARY KEY,
     claim_date    DATE NOT NULL,
-    sale_id       BIGINT NOT NULL,
+    sale_id       VARCHAR(50) NOT NULL,
     repair_status VARCHAR(50) NOT NULL,
 
     CONSTRAINT fk_warranty_sale

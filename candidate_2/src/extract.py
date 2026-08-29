@@ -125,8 +125,8 @@ def load_parquet_polars(data_dir: str = PARQUET_DIR) -> pl.DataFrame :
     return pl.read_parquet(file_path)
     
     
-# if __name__ == '__main__':
-#     data = load_all_data()
+if __name__ == '__main__':
+    data = load_all_data()
     
-#     for name, df in data.items():
-#         print(f"Loaded {name}: {df.shape[0]} rows, {df.shape[1]} columns")
+    for name, df in data.items():
+        print(f"Loaded {name}: {df.shape[0]} rows, {df.shape[1]} columns")

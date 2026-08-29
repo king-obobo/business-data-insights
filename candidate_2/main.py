@@ -8,6 +8,7 @@ from src.aggregate import (
     top_3_prods_by_revenue_polars
 )
 from scripts.download_data import download_kaggle_dataset, convert_stores_to_json
+from src.repository import SalesRepository
 
 
 dataset_id = 'amangarg08/apple-retail-sales-dataset'
@@ -55,3 +56,16 @@ if __name__ == "__main__":
     
     print("\n======TOP 3 PRODUCTS BY REVENUE POLARS==========")
     print(top_3_prods_by_revenue_polars(pl_df))
+    
+    # Rinning the queries from the loaded data in my DB
+    repo = SalesRepository()
+    # 1. Top 3 Products per Store (Window Function)
+    print("\n================ TOP 3 PRODUCTS PER STORE BY REVENUE ================")
+    top_products_df = repo.get_top_products_per_store(rank_limit=3)
+    print(top_products_df.head(10))
+
+    # 2. Warranty Claim Rate by Category (CTE Join)
+    print("\n============== WARRANTY CLAIM RATE BY CATEGORY ==============")
+    claim_rate_df = repo.get_claim_rate_by_category()
+    print(claim_rate_df)
+    
