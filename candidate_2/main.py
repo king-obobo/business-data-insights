@@ -7,6 +7,11 @@ from src.aggregate import (
     top_3_prods_by_revenue,
     top_3_prods_by_revenue_polars
 )
+
+from src.init_db import create_schema
+from src.extract import load_all_data
+from src.load import load_dataframes_to_db
+
 from scripts.download_data import download_kaggle_dataset, convert_stores_to_json
 from src.repository import SalesRepository
 
@@ -29,6 +34,7 @@ if __name__ == "__main__":
     products_df = all_data['products']
     stores_df = all_data['stores']
     category_df = all_data['category']
+    warranty_df = all_data['warranty']
     
     print("Merging Data...\n")
     df = merge_all_data(sales_df=sales_df, products_df= products_df, stores_df= stores_df, category_df= category_df)
@@ -56,6 +62,18 @@ if __name__ == "__main__":
     
     print("\n======TOP 3 PRODUCTS BY REVENUE POLARS==========")
     print(top_3_prods_by_revenue_polars(pl_df))
+    
+    # Creating the schema and loading the data into the db
+    create_schema()
+    
+    print("============Loading into DB=================")
+    load_dataframes_to_db(
+        category_df= category_df,
+        stores_df= stores_df,
+        products_df= products_df,
+        sales_df= sales_df,
+        warranty_df= warranty_df
+    )
     
     # Rinning the queries from the loaded data in my DB
     repo = SalesRepository()
