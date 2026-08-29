@@ -1,8 +1,10 @@
 import pandas as pd
-from extract import load_parquet
+import polars as pl
+# from .extract import load_parquet, load_parquet_polars
 
 
-df = load_parquet()
+# df = load_parquet()
+# pl_df = load_parquet_polars()
 
 
 def revenue_by_year(df:pd.DataFrame) -> pd.DataFrame :
@@ -54,17 +56,32 @@ def top_3_prods_by_revenue(df: pd.DataFrame) -> pd.DataFrame :
     return top_3_prods_rev
 
 
-if __name__ == '__main__':
-    data = load_parquet()
-    
-    print("\n======REVENUE BY YEAR==========")
-    print(revenue_by_year(df))
-    
-    print("\n======REVENUE BY CATEGORY==========")
-    print(revenue_by_category(df))
-    
-    print("\n======TOP 3 PRODUCTS BY VOLUME==========")
-    print(top_3_prods_by_volume(df))
+def top_3_prods_by_revenue_polars(pl_df: pl.DataFrame) -> pl.DataFrame:
+    """Polars execution path for Top 3 Products by Revenue."""
+    top_3_prods_rev = (
+        pl_df.group_by(['product_id', 'product_name'])
+        .agg(pl.col('revenue').sum().alias('total_revenue'))
+        .sort('total_revenue', descending=True)
+        .head(3)
+    )
+    return top_3_prods_rev
 
-    print("\n======TOP 3 PRODUCTS BY REVENUE==========")
-    print(top_3_prods_by_revenue(df))
+
+# if __name__ == '__main__':
+#     df = load_parquet()
+#     pl_df = load_parquet_polars()
+    
+#     print("\n======REVENUE BY YEAR==========")
+#     print(revenue_by_year(df))
+    
+#     print("\n======REVENUE BY CATEGORY==========")
+#     print(revenue_by_category(df))
+    
+#     print("\n======TOP 3 PRODUCTS BY VOLUME==========")
+#     print(top_3_prods_by_volume(df))
+
+#     print("\n======TOP 3 PRODUCTS BY REVENUE PANDAS==========")
+#     print(top_3_prods_by_revenue(df))
+    
+#     print("\n======TOP 3 PRODUCTS BY REVENUE POLARS==========")
+#     print(top_3_prods_by_revenue_polars(pl_df))

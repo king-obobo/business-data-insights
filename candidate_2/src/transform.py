@@ -1,5 +1,4 @@
 import os
-from extract import load_all_data
 import pandas as pd
 
 
@@ -32,26 +31,29 @@ def create_derived_col(df: pd.DataFrame) -> pd.DataFrame:
 
 # Export to parquet
 def export_to_parquet(df: pd.DataFrame) -> None:
+    if DATA_DIR:
+        print("File already exists, skipping conversion to parquet step...")
+        return
     os.makedirs(DATA_DIR, exist_ok=True)
     df.to_parquet(f"{DATA_DIR}/cleaned_data.parquet", engine='pyarrow', index=False)
     print("Succesfully exported to Parquet")
     
     
     
-if __name__ == '__main__':
-    print("Loading Data ... \n")
-    all_data = load_all_data()
+# if __name__ == '__main__':
+#     print("Loading Data ... \n")
+#     all_data = load_all_data()
 
-    sales_df = all_data.get('sales')
-    products_df = all_data.get('products')
-    stores_df = all_data.get('stores')
+#     sales_df = all_data.get('sales')
+#     products_df = all_data.get('products')
+#     stores_df = all_data.get('stores')
     
-    print("Merging Data...\n")
-    df = merge_all_data(sales_df=sales_df, products_df= products_df, stores_df= stores_df)
+#     print("Merging Data...\n")
+#     df = merge_all_data(sales_df=sales_df, products_df= products_df, stores_df= stores_df)
     
-    df = create_derived_col(df)
+#     df = create_derived_col(df)
     
-    # Export to Parquet
-    export_to_parquet(df)
+#     # Export to Parquet
+#     export_to_parquet(df)
         
     

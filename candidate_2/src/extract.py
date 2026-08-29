@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import polars as pl
 
 
 DATA_DIR = os.path.abspath(
@@ -13,6 +14,7 @@ PARQUET_DIR = os.path.abspath(
         os.path.dirname(__file__), '..', 'data', 'processed'
     )
 )
+
 
 def load_sales(data_dir: str = DATA_DIR) -> pd.DataFrame:
     """Loads and Parses the sales dataset
@@ -94,6 +96,19 @@ def load_parquet(data_dir: str = PARQUET_DIR) -> pd.DataFrame:
     """
     file_path = os.path.join(data_dir, 'cleaned_data.parquet')
     return pd.read_parquet(file_path)
+
+
+def load_parquet_polars(data_dir: str = PARQUET_DIR) -> pl.DataFrame :
+    """_summary_
+
+    Args:
+        data_dir (str, optional):Defaults to PARQUET_DIR.
+
+    Returns:
+        pl.DataFrame: _description_
+    """
+    file_path = os.path.join(data_dir, 'cleaned_data.parquet')
+    return pl.read_parquet(file_path)
     
     
 # if __name__ == '__main__':
