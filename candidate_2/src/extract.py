@@ -75,6 +75,19 @@ def load_warranty(data_dir: str) -> pd.DataFrame:
     return pd.read_csv(file_path, parse_dates=['claim_date'], date_format='%Y-%m-%d')
 
 
+def load_category(data_dir: str = DATA_DIR) -> pd.DataFrame:
+    """Loads in a csv file
+
+    Args:
+        data_dir (str, optional):Defaults to DATA_DIR.
+
+    Returns:
+        pd.DataFrame: _description_
+    """
+    file_path = os.path.join(data_dir, 'category.csv')
+    return pd.read_csv(file_path)
+
+
 def load_all_data(data_dir: str = DATA_DIR) -> dict[str, pd.DataFrame]:
     """Loads all raw detail datasets into a dictionary"""
     return {
@@ -82,6 +95,7 @@ def load_all_data(data_dir: str = DATA_DIR) -> dict[str, pd.DataFrame]:
         'products': load_products(data_dir),
         'stores': load_stores(data_dir),
         'warranty': load_warranty(data_dir),
+        'category': load_category(data_dir)
     }
     
 

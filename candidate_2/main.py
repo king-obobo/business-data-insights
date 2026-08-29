@@ -27,9 +27,10 @@ if __name__ == "__main__":
     sales_df = all_data['sales']
     products_df = all_data['products']
     stores_df = all_data['stores']
+    category_df = all_data['category']
     
     print("Merging Data...\n")
-    df = merge_all_data(sales_df=sales_df, products_df= products_df, stores_df= stores_df)
+    df = merge_all_data(sales_df=sales_df, products_df= products_df, stores_df= stores_df, category_df= category_df)
     
     df = create_derived_col(df)
     

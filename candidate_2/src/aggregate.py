@@ -20,7 +20,7 @@ def revenue_by_year(df:pd.DataFrame) -> pd.DataFrame :
 
 def revenue_by_category(df: pd.DataFrame) -> pd.DataFrame :
     category_revenue = (
-        df.groupby('category_id')
+        df.groupby(['category_id', 'category_name'])
         .agg(
             total_revenue= ('revenue', 'sum'), 
             total_units_sold = ('quantity', 'sum'), 

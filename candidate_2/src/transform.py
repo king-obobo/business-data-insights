@@ -15,11 +15,14 @@ DATA_DIR = os.path.abspath(
 def merge_all_data(
     sales_df: pd.DataFrame,
     products_df: pd.DataFrame,
-    stores_df: pd.DataFrame
+    stores_df: pd.DataFrame,
+    category_df: pd.DataFrame
 ) -> pd.DataFrame:
     unified_df = sales_df.merge(products_df, on='product_id', how='left')
     
     unified_df = unified_df.merge(stores_df, on='store_id', how='left')
+    
+    unified_df = unified_df.merge(category_df, on='category_id', how='left')
     
     return unified_df
 
@@ -30,15 +33,23 @@ def create_derived_col(df: pd.DataFrame) -> pd.DataFrame:
 
 
 # Export to parquet
-def export_to_parquet(df: pd.DataFrame) -> None:
-    if DATA_DIR:
-        print("File already exists, skipping conversion to parquet step...")
-        return
+def export_to_parquet(df: pd.DataFrame, filename: str = 'cleaned_data.parquet') -> None:
+    """Export cleaned DataFrame to Parquet if the target file does not exist."""
+    # 1. Ensure directory exists before checking contents
     os.makedirs(DATA_DIR, exist_ok=True)
-    df.to_parquet(f"{DATA_DIR}/cleaned_data.parquet", engine='pyarrow', index=False)
-    print("Succesfully exported to Parquet")
-    
-    
+
+    # 2. Construct precise target filepath
+    target_path = os.path.join(DATA_DIR, filename)
+
+    # 3. Check for the specific target file
+    if os.path.exists(target_path):
+        print(f"File already exists at '{target_path}', skipping conversion to parquet step...")
+        return
+
+    # 4. Write to parquet
+    df.to_parquet(target_path, engine='pyarrow', index=False)
+    print(f"Successfully exported to Parquet at '{target_path}'")
+
     
 # if __name__ == '__main__':
 #     print("Loading Data ... \n")
@@ -55,5 +66,3 @@ def export_to_parquet(df: pd.DataFrame) -> None:
     
 #     # Export to Parquet
 #     export_to_parquet(df)
-        
-    
