@@ -1,0 +1,24 @@
+[project]
+name = "github-data-ingestion-pipeline"
+version = "0.1.0"
+description = "A resilient Python ingestion service, exposed via FastAPI, that fetches public GitHub repository metadata for designated organizations, validates records through strict schema and business rules, isolates invalid records into a quarantine table, persists trustworthy data to PostgreSQL, and produces automated data quality metrics"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.141.1",
+    "psycopg[binary]>=3.3.5",
+    "pydantic>=2.13.5",
+    "python-dotenv>=1.2.3",
+    "requests>=2.34.2",
+    "uvicorn>=0.53.0",
+]
+
+[dependency-groups]
+dev = [
+    "httpx2>=2.13.1",
+    "ipykernel>=7.3.0",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "pytest-mock>=3.15.1",
+    "responses>=0.26.3",
+]
